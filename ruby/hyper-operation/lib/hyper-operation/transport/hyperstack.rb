@@ -153,7 +153,7 @@ module Hyperstack
   end
 
   def self.authorization(salt, channel, session_id)
-    secret_key = Rails.application.secrets[:secret_key_base]
+    secret_key = Rails.application.secret_key_base
     Digest::SHA1.hexdigest(
       "salt: #{salt}, channel: #{channel}, session_id: #{session_id}, secret_key: #{secret_key}"
     )
