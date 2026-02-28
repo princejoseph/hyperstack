@@ -80,6 +80,14 @@ module Hyperstack
       config.hyperstack.auto_config = true
     end
 
+    # Hyperstack components are Opal/client-side code compiled by Sprockets.
+    # Tell Zeitwerk to ignore them so they are never autoloaded or eager-loaded
+    # server-side. Without this, CI environments (eager_load=true) alphabetically
+    # load component files before HyperComponent is defined, causing NameError.
+    initializer "hyperstack.ignore_client_only_paths" do
+      Rails.autoloaders.main.ignore(Rails.root.join('app/hyperstack/components'))
+    end
+
     config.after_initialize do |app|
       next unless [:on, 'on', true].include?(config.hyperstack.auto_config)
       # possible alternative way
