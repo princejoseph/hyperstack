@@ -44,11 +44,13 @@ module Hyperstack
             #   config.assets.paths.delete(hps)
             #   config.assets.paths.unshift(hps)
             # end
-            config.assets.paths.unshift ::Rails.root.join('app', 'hyperstack').to_s
-            if Rails.const_defined? 'Hyperstack::Console'
-              config.assets.precompile += %w( hyper-console-client.css )
-              config.assets.precompile += %w( hyper-console-client.min.js )
-              config.assets.precompile += %w( action_cable.js ) if Rails.const_defined? 'ActionCable'
+            if config.respond_to?(:assets)
+              config.assets.paths.unshift ::Rails.root.join('app', 'hyperstack').to_s
+              if Rails.const_defined? 'Hyperstack::Console'
+                config.assets.precompile += %w( hyper-console-client.css )
+                config.assets.precompile += %w( hyper-console-client.min.js )
+                config.assets.precompile += %w( action_cable.js ) if Rails.const_defined? 'ActionCable'
+              end
             end
          else
             delete_first config.eager_load_paths, "#{config.root}/app/hyperstack/models"
@@ -63,7 +65,7 @@ module Hyperstack
             delete_first config.autoload_paths, "#{config.root}/app/hyperstack/shared"
 
 
-            delete_first config.assets.paths, ::Rails.root.join('app', 'hyperstack').to_s
+            delete_first config.assets.paths, ::Rails.root.join('app', 'hyperstack').to_s if config.respond_to?(:assets)
           end
         end
         super
