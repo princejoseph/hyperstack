@@ -34,7 +34,7 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'hyper-component', HyperSpec::VERSION
-  spec.add_development_dependency 'mini_racer', '>= 0.6.0' # 0.3.x fails to compile on Ubuntu 24.04; 0.6+ uses libv8-node and compiles cleanly
+  spec.add_development_dependency 'mini_racer', '~> 0.9.0' # 0.3.x fails on Ubuntu 24.04; 0.9.x uses libv8-node and works with Ruby 3.1
   spec.add_development_dependency 'opal-rails', '>= 0.9.4'
   spec.add_development_dependency 'pry-rescue'
   spec.add_development_dependency 'pry-stack_explorer'
