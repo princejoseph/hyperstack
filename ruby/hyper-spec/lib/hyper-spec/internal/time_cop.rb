@@ -169,8 +169,8 @@ else
 
       stack_item = TimeStackItem.new(mock_type, *args)
 
-      stack_backup = @_stack.dup
-      @_stack << stack_item
+      stack_backup = stack.dup
+      stack << stack_item
 
       Lolex.push(mock_type, *args)
 
@@ -179,25 +179,25 @@ else
           yield stack_item.time
         ensure
           Lolex.pop
-          @_stack.replace stack_backup
+          set_stack stack_backup
         end
       end
     end
 
     def return(&block)
-      current_stack = @_stack
-      current_baseline = @baseline
+      current_stack = stack
+      current_baseline = baseline
       unmock!
       yield
     ensure
       Lolex.restore
-      @_stack = current_stack
-      @baseline = current_baseline
+      set_stack current_stack
+      set_baseline current_baseline
     end
 
     def unmock! #:nodoc:
-      @baseline = nil
-      @_stack = []
+      set_baseline nil
+      set_stack []
       Lolex.unmock
     end
   end
