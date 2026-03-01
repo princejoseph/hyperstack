@@ -245,16 +245,13 @@ RSpec.configure do |config|
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
   end
 
-  # GitHub Actions: setup-chrome sets CHROMEWEBDRIVER to the chromedriver directory
+  # GitHub Actions: Selenium Manager (selenium-webdriver >= 4.11) finds chromedriver automatically
   Capybara.register_driver :chrome_headless_github_actions do |app|
     options = ::Selenium::WebDriver::Chrome::Options.new
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
-    if (dir = ENV['CHROMEWEBDRIVER'])
-      Selenium::WebDriver::Chrome::Service.driver_path = File.join(dir, 'chromedriver')
-    end
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
   end
 

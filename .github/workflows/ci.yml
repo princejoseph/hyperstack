@@ -34,13 +34,8 @@ jobs:
           working-directory: ruby/${{ matrix.gem }}
           bundler-cache: true
 
-      - name: Set up Chrome
-        uses: browser-actions/setup-chrome@v1
-        id: setup-chrome
-
       - name: Run specs
         run: bundle exec rake spec
         env:
           DRIVER: github
-          CHROMEWEBDRIVER: ${{ steps.setup-chrome.outputs.chromedriver-path }}
           RAILS_ENV: test

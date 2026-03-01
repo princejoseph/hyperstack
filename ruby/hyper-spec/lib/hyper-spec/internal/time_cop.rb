@@ -164,8 +164,6 @@ else
 
   # Monkey patches to call our Lolex interface
   class Timecop
-    private
-
     def travel(mock_type, *args, &block)
       raise SafeModeException if Timecop.safe_mode? && !block_given?
 
