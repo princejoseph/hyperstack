@@ -30,11 +30,11 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   spec.add_dependency 'selenium-webdriver', '>= 4.11'
   spec.add_dependency 'timecop', '>= 0.8.1'
   spec.add_dependency 'uglifier'
-  spec.add_dependency 'unparser', '>= 0.4.2'
+  spec.add_dependency 'unparser', '>= 0.4.2', '< 0.6.4' # 0.6.4+ emits Ruby 3.1 shorthand hash syntax ({ foo: }) that Opal cannot parse
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'hyper-component', HyperSpec::VERSION
-  spec.add_development_dependency 'mini_racer', '< 0.4.0' # something is busted with 0.4.0 and its libv8-node dependency
+  spec.add_development_dependency 'mini_racer', '>= 0.6.0' # 0.3.x fails to compile on Ubuntu 24.04; 0.6+ uses libv8-node and compiles cleanly
   spec.add_development_dependency 'opal-rails', '>= 0.9.4'
   spec.add_development_dependency 'pry-rescue'
   spec.add_development_dependency 'pry-stack_explorer'

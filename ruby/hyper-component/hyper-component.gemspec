@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'jquery-rails'
   spec.add_development_dependency 'listen'
   spec.add_development_dependency 'mime-types'
-  # spec.add_development_dependency 'mini_racer', '< 0.4.0' # mini_racer 0.3.x fails to compile on Ubuntu 24.04; Node.js is used as JS runtime instead
+  spec.add_development_dependency 'mini_racer', '>= 0.6.0' # 0.3.x fails to compile on Ubuntu 24.04; 0.6+ uses libv8-node and compiles cleanly
   spec.add_development_dependency 'nokogiri'
   spec.add_development_dependency 'opal-jquery'
   spec.add_development_dependency 'opal-rails' 
