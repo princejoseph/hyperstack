@@ -252,7 +252,7 @@ RSpec.configure do |config|
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
-    options.add_option('goog:loggingPrefs', { browser: 'SEVERE' })
+    options.add_option('goog:loggingPrefs', { browser: 'WARNING' })
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
   end
 
