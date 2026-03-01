@@ -30,7 +30,7 @@ module HyperSpec
             sleep 0.25
           end
         end
-        JSON.parse(page.evaluate_script('window.hyper_spec_promise_result.$to_json()'), opts).first
+        JSON.parse(page.evaluate_script('JSON.stringify(window.hyper_spec_promise_result)'), opts).first
       end
 
       def add_promise_wrapper(str)
