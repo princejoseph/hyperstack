@@ -10,6 +10,7 @@ on:
       - edge
 
 jobs:
+  # Gems that use SQLite — no external service needed
   test:
     name: ${{ matrix.gem }}
     runs-on: ubuntu-latest
@@ -19,6 +20,9 @@ jobs:
         gem:
           - hyperstack-config
           - hyper-state
+          - hyper-component
+          - hyper-store
+          - hyper-router
 
     defaults:
       run:
@@ -34,8 +38,57 @@ jobs:
           working-directory: ruby/${{ matrix.gem }}
           bundler-cache: true
 
+      - name: Prepare test app
+        run: bundle exec rake spec:prepare
+
       - name: Run specs
         run: bundle exec rake spec
         env:
           DRIVER: github
           RAILS_ENV: test
+
+  # hyper-operation needs MySQL
+  test-operation:
+    name: hyper-operation
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: hyper_operation_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    defaults:
+      run:
+        working-directory: ruby/hyper-operation
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          working-directory: ruby/hyper-operation
+          bundler-cache: true
+
+      - name: Prepare test app database
+        run: bundle exec rake spec:prepare
+        env:
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASSWORD: root
+
+      - name: Run specs
+        run: bundle exec rake spec
+        env:
+          DRIVER: github
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASSWORD: root
