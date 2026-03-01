@@ -47,10 +47,11 @@ jobs:
           DRIVER: github
           RAILS_ENV: test
 
-  # hyper-operation needs MySQL
+  # hyper-operation needs MySQL + Redis
   test-operation:
     name: hyper-operation
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     services:
       mysql:
@@ -81,6 +82,14 @@ jobs:
           ruby-version: '3.1'
           working-directory: ruby/hyper-operation
           bundler-cache: true
+
+      - name: Cache Opal/Sprockets assets
+        uses: actions/cache@v4
+        with:
+          path: ruby/hyper-operation/spec/test_app/tmp/cache
+          key: hyper-operation-assets-${{ hashFiles('ruby/hyper-operation/Gemfile.lock', 'ruby/hyper-operation/spec/test_app/app/**', 'ruby/**/*.rb') }}
+          restore-keys: |
+            hyper-operation-assets-
 
       - name: Prepare test app database
         run: bundle exec rake spec:prepare
