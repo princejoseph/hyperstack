@@ -29,7 +29,7 @@ RSpec.configure do |config|
       example.run
       Object.send(:remove_const, :MiniRacer)
     else
-      example.run
+      skip 'mini_racer not available; skipping prerendering test'
     end
   end
 

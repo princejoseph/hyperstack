@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'jquery-rails'
   spec.add_development_dependency 'listen'
   spec.add_development_dependency 'mime-types'
-  spec.add_development_dependency 'mini_racer', '~> 0.9.0' # 0.3.x fails on Ubuntu 24.04; 0.9.x uses libv8-node and works with Ruby 3.1
+  # spec.add_development_dependency 'mini_racer' # fails to compile on Ubuntu 24.04; Node.js used instead; prerendering_on tests skipped in CI
   spec.add_development_dependency 'nokogiri'
   spec.add_development_dependency 'opal-jquery'
   spec.add_development_dependency 'opal-rails' 
