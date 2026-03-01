@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - rails-7-compatibility
+      - edge
+  pull_request:
+    branches:
+      - edge
+
+jobs:
+  test:
+    name: ${{ matrix.gem }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        gem:
+          - hyperstack-config
+          - hyper-state
+
+    defaults:
+      run:
+        working-directory: ruby/${{ matrix.gem }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          working-directory: ruby/${{ matrix.gem }}
+          bundler-cache: true
+
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        id: setup-chrome
+
+      - name: Run specs
+        run: bundle exec rake spec
+        env:
+          DRIVER: github
+          CHROMEWEBDRIVER: ${{ steps.setup-chrome.outputs.chromedriver-path }}
+          RAILS_ENV: test
