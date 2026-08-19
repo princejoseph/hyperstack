@@ -59,11 +59,11 @@ You can control how much of the stack gets installed as well:
   spec.add_dependency 'hyper-router', Hyperstack::ROUTERVERSION
   spec.add_dependency 'hyperstack-config', Hyperstack::VERSION
   spec.add_dependency 'opal-rails'
-  spec.add_dependency 'opal', ENV['OPAL_VERSION'] || '>= 0.11.0', '< 1.1'
+  spec.add_dependency 'opal', ENV['OPAL_VERSION'] || '>= 1.7.0', '< 2.0'
   spec.add_dependency 'react-rails', '>= 2.4.0', '< 3.0'
   # spec.add_dependency 'mini_racer', '~> 0.2.6'
   # spec.add_dependency 'libv8', '~> 7.3.492.27.1'
-  spec.add_dependency 'rails', ENV['RAILS_VERSION'] || '>= 5.0.0', '< 8.0'
+  spec.add_dependency 'rails', ENV['RAILS_VERSION'] || '>= 5.0.0', '< 8.1'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'hyper-spec', Hyperstack::VERSION
