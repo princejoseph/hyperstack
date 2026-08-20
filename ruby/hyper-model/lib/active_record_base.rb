@@ -21,7 +21,14 @@ module ActiveRecord
 
       alias pre_hyperstack_has_and_belongs_to_many has_and_belongs_to_many unless RUBY_ENGINE == 'opal'
 
-      def has_and_belongs_to_many(other, opts = {}, &block)
+      # Ruby 3 / Rails 7+: options must be forwarded as keywords — a positional
+      # Hash lands in AR's `scope` param and crashes on scope.arity. Accept a
+      # legacy positional opts hash for backward compatibility.
+      def has_and_belongs_to_many(other, scope = nil, **opts, &block)
+        if scope.is_a?(Hash)
+          opts = scope.merge(opts)
+          scope = nil
+        end
         join_table_name = [other.to_s, table_name].sort.join('_')
         join_model_name = "HyperstackInternalHabtm#{join_table_name.singularize.camelize}"
         join_model =
@@ -42,7 +49,7 @@ module ActiveRecord
         else
           join_model.table_name = join_table_name
           join_model.belongs_to other
-          pre_hyperstack_has_and_belongs_to_many(other, opts, &block)
+          pre_hyperstack_has_and_belongs_to_many(other, scope, **opts, &block)
         end
       end
     end
